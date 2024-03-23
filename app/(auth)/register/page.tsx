@@ -27,9 +27,9 @@ const SignUp = () => {
   
 
   return (
-    <div className="">
+    <div >
       <SigningUp/>
-      <div className="w-full h-screen  top-0 left-0  ">
+      <div className="top-0 left-0  ">
         <ParticlesComponent />
       </div>
     </div>

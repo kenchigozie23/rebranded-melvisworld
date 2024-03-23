@@ -20,7 +20,7 @@ const SignIn = () => {
     <div className=" text-black  ">
       <SigningIn />
 
-      <div className="w-full h-screen  top-0 left-0  ">
+      <div className="  top-0 left-0  ">
         <ParticlesComponent />
       </div>
     </div>
