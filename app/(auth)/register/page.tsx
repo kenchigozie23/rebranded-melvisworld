@@ -2,18 +2,25 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import { z } from "zod";
+import {useTransition} from 'react'
 
 import { RegisterSchema } from "../../../lib/schema";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
+import { registerServe } from "@/actions/register";
+
 
 
 
 type FormField = z.infer<typeof RegisterSchema>;
 
 const SignUp = () => {
+  const [isPending, startTransition] = useTransition()
+
+  const [error, setError] = useState<string | undefined>('')
+  const [success, setSuccess] = useState<string | undefined>('')
   // const [universityLevel, setUniversityLevel] = useState("");
   // const universityLevels = [
   //   "Freshman",
@@ -37,8 +44,18 @@ const SignUp = () => {
     },
     resolver: zodResolver(RegisterSchema),
   });
-  const onSubmit: SubmitHandler<FormField> =  (values) => {
-    console.log(values)
+  const onSubmit: SubmitHandler<FormField> = (values) => {
+    setError("")
+    setSuccess("")
+
+    startTransition(() => {
+    registerServe(values)
+    .then((data) => {
+        setError(data.error)
+        setSuccess(data.success)
+    })
+        
+    })
   };
 
   return (
@@ -119,11 +136,12 @@ const SignUp = () => {
                 Username
               </label>
               <input
+                disabled={isPending}
                 type="text"
                 id="username"
                 name="username"
                 placeholder="name"
-                // {...register("name")}
+                {...register("name")}
                 className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
               />
                {errors.name && (
@@ -140,7 +158,7 @@ const SignUp = () => {
               <input
                 type="text"
                 id="email"
-                
+                disabled={isPending}
                 placeholder="email"
                 {...register("email")}
                 className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
@@ -179,7 +197,7 @@ const SignUp = () => {
               <input
                 type="password"
                 id="password"
-               
+                disabled={isPending}
                 {...register("password")}
                 className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
               />
@@ -194,15 +212,16 @@ const SignUp = () => {
               Forgot Password?
             </button>
 
-            {/* <FormError message="Something went wrong"/> */}
-            {/* <FormSuccess message="Something went wrong"/> */}
+            <FormError message={error}/>
+            <FormSuccess message={success}/>
 
             <div>
               <button
+               disabled={isPending}
                 type="submit"
                 className="w-full bg-black text-white p-2 rounded-md hover:bg-gray-800 focus:outline-none focus:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-colors duration-300"
               >
-                Sign Up
+               {isPending ? "Registering..." : "register"}
               </button>
             </div>
            
