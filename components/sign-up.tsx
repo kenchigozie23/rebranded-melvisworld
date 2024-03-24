@@ -3,6 +3,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { z } from "zod";
 import {useTransition} from 'react'
+import Link from 'next/link'
 
 
 import { useForm, SubmitHandler } from "react-hook-form";
@@ -219,9 +220,9 @@ function SigningUp() {
           <div className="mt-4 text-sm text-gray-600 text-center">
             <p>
               Already have an account?{" "}
-              <a href="#" className="text-black hover:underline">
+              <Link href="/login" className="text-black hover:underline">
                 Login here
-              </a>
+              </Link>
             </p>
           </div>
         </div>

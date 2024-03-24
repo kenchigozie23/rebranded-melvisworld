@@ -33,13 +33,13 @@ function Secondnav() {
   }, []);
 
   return (
-    <main className="w-full lg:px-32 px-10 md:px-11 mx-auto  py-6 top-0 left-0 z-20 fixed ease-in duration-300">
+    <main className="w-full lg:px-32 px-10 md:px-11 mx-auto  py-3 top-0 left-0 z-20 fixed ease-in duration-300">
     <div className="max-w-[1366px] mx-auto h-[100px]  md:flex justify-between items-center ">
 
     
       <article className="flex justify-between items-center">
         <div className="lg:w-52 w-48  pt-2 lg:pt-0">
-          <Image className="pr-20" src={melvislogo} alt="melvisworld-logo" />
+          <Image className="pr-20 cursor-pointer" src={melvislogo} alt="melvisworld-logo" />
         </div>
         <div className="md:flex justify-between items-center gap-3 mx-9 pr-9 hidden ">
           <Link

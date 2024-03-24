@@ -3,6 +3,7 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import {z} from 'zod'
+import Link from 'next/link'
 
 
 import {useTransition} from 'react'
@@ -178,9 +179,9 @@ function SigningIn() {
           <div className="mt-4 text-sm text-gray-600 text-center">
             <p>
               Don't have an account?{" "}
-              <a href="#" className="text-black hover:underline">
+              <Link href="/register" className="text-black hover:underline">
                 Register
-              </a>
+              </Link>
             </p>
           </div>
         </div>

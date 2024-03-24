@@ -4,7 +4,7 @@ import Secondnav from '@/components/Secondnav'
 
 export default function Home() {
   return (
-       <div className='w-full h-screen'>
+       <div className='space-y-4'>
           <Firstnav/>
           
           <Secondnav/>
