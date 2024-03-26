@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import {Suspense} from "react"
+
 
 import SigningIn from "@/components/sign-in";
 import ParticlesComponent from "../../../components/particle";
@@ -19,10 +19,10 @@ const SignIn = () => {
 
   return (
     <div className=" text-black  ">
-      <Suspense>
+    
 
       <SigningIn />
-      </Suspense>
+      
 
       <div className="  top-0 left-0  ">
         <ParticlesComponent />
