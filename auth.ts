@@ -13,8 +13,12 @@ export const  {
     signIn,
     signOut,
 } = NextAuth({
+  pages: {
+    signIn: "/login",
+    error: "/error",
+  },
     callbacks:{
-      
+
       // async signIn({ user }) {
       //   // Allow OAuth without email verification
       //   if (account?.provider !== "credentials") return true;

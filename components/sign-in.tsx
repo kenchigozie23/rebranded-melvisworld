@@ -1,13 +1,14 @@
-
 "use client";
 import Image from "next/image";
 import React, { useState } from "react";
-import {z} from 'zod'
-import Link from 'next/link'
+import { z } from "zod";
+import Link from "next/link";
 
+import { useSearchParams } from "next/navigation";
 
+import ScaleLoader from "react-spinners/ScaleLoader";
 import { signIn } from "next-auth/react";
-import {useTransition} from 'react'
+import { useTransition } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormError } from "@/components/form-error";
@@ -18,40 +19,45 @@ import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 
 type FormField = z.infer<typeof LoginSchema>;
 
-
 function SigningIn() {
-  const onClick = (provider : "google" | "github") => {
+  const searchParams = useSearchParams();
+
+  const urlError =
+    searchParams.get("error") === "OAuthAccountNotLinked"
+      ? "Email already in use with different provider!"
+      : "";
+
+  const onClick = (provider: "google" | "github") => {
     signIn(provider, {
       callbackUrl: DEFAULT_LOGIN_REDIRECT,
-    })
-  }
-    const [isPending, startTransition] = useTransition()
-    const [error, setError] = useState<string | undefined>('')
-    const [success, setSuccess] = useState<string | undefined>('')
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-      } = useForm<FormField>({
-        defaultValues: {
-          email: "",
-          password: "",
-        },
-        resolver: zodResolver(LoginSchema),
+    });
+  };
+  const [isPending, startTransition] = useTransition();
+  const [error, setError] = useState<string | undefined>("");
+  const [success, setSuccess] = useState<string | undefined>("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormField>({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+    resolver: zodResolver(LoginSchema),
+  });
+  const onSubmit: SubmitHandler<FormField> = (values) => {
+    setError("");
+    setSuccess("");
+
+    startTransition(() => {
+      login(values).then((data) => {
+        setError(data?.error);
+        // when we add 2FA
+        // setSuccess(data?.success)
       });
-      const onSubmit: SubmitHandler<FormField> = (values) => {
-        setError("")
-        setSuccess("")
-    
-        startTransition(() => {
-        login(values)
-        .then((data) => {
-            setError(data.error)
-            setSuccess(data.success)
-        })
-            
-        })
-      };
+    });
+  };
   return (
     <div className="flex h-screen  w-full">
       {/* Left Pane */}
@@ -72,7 +78,7 @@ function SigningIn() {
           <div className="mt-4 flex flex-col lg:flex-row items-center justify-between">
             <div className="w-full lg:w-1/2 mb-2 lg:mb-0">
               <button
-              onClick={() => onClick("google")}
+                onClick={() => onClick("google")}
                 type="submit"
                 className="w-full flex justify-center items-center gap-2 bg-white text-sm text-gray-600 p-2 rounded-md hover:bg-gray-50 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-200 transition-colors duration-300"
               >
@@ -104,7 +110,7 @@ function SigningIn() {
             </div>
             <div className="w-full lg:w-1/2 ml-0 lg:ml-2">
               <button
-              onClick={() => onClick("github")}
+                onClick={() => onClick("github")}
                 type="submit"
                 className="w-full flex justify-center items-center gap-2 bg-white text-sm text-gray-600 p-2 rounded-md hover:bg-gray-50 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-200 transition-colors duration-300"
               >
@@ -171,7 +177,7 @@ function SigningIn() {
               Forgot Password?
             </button>
 
-            <FormError message={error} />
+            <FormError message={error || urlError} />
             <FormSuccess message={success} />
 
             <div>
@@ -180,7 +186,11 @@ function SigningIn() {
                 type="submit"
                 className="w-full bg-black text-white p-2 rounded-md hover:bg-gray-800 focus:outline-none focus:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-colors duration-300"
               >
-                {isPending ? "logging...." : "login"}
+                {isPending ? (
+                  <ScaleLoader color="#ffffff" height={15} />
+                ) : (
+                  "login"
+                )}
               </button>
             </div>
           </form>
