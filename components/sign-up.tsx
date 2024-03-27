@@ -59,7 +59,7 @@ function SigningUp() {
         </div>
       </div>
       {/* Right Pane */}
-      <div className="w-full  bg-white shadow-lg rounded lg:w-1/2 flex items-center justify-center">
+      <div className="w-full  bg-white shadow-lg rounded lg:w-1/2 flex items-center justify-center max-w-md">
         <div className="max-w-md w-full p-6">
           <h1 className="text-3xl font-semibold mb-6 text-black text-center">
             Sign Up
