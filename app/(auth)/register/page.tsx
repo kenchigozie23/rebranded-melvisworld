@@ -5,7 +5,7 @@
 "use client";
 import React from "react";
 
-import ParticlesComponent from "../../../components/particle";
+// import ParticlesComponent from "../../../components/particle";
 import SigningUp from "@/components/sign-up";
 
 
@@ -30,7 +30,7 @@ const SignUp = () => {
     <div >
       <SigningUp/>
       <div className="top-0 left-0  ">
-        <ParticlesComponent />
+        {/* <ParticlesComponent /> */}
       </div>
     </div>
   );

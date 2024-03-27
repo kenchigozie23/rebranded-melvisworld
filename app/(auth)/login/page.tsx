@@ -3,7 +3,7 @@ import React from "react";
 
 
 import SigningIn from "@/components/sign-in";
-import ParticlesComponent from "../../../components/particle";
+// import ParticlesComponent from "../../../components/particle";
 
 const SignIn = () => {
   // const [universityLevel, setUniversityLevel] = useState("");
@@ -25,7 +25,7 @@ const SignIn = () => {
       
 
       <div className="  top-0 left-0  ">
-        <ParticlesComponent />
+        {/* <ParticlesComponent /> */}
       </div>
     </div>
   );

@@ -12,6 +12,7 @@ import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import { registerServe } from "@/actions/register";
 import { RegisterSchema } from "@/lib/schema";
+import ScaleLoader from "react-spinners/ScaleLoader";
 
 
 
@@ -212,7 +213,11 @@ function SigningUp() {
                 type="submit"
                 className="w-full bg-black text-white p-2 rounded-md hover:bg-gray-800 focus:outline-none focus:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-colors duration-300"
               >
-               {isPending ? "Registering..." : "register"}
+                {isPending ? (
+                  <ScaleLoader color="#ffffff" height={15} />
+                ) : (
+                  "Register"
+                )}
               </button>
             </div>
            

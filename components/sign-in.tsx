@@ -62,7 +62,7 @@ function SigningIn() {
     <div className="flex h-screen  w-full">
       {/* Left Pane */}
       <div className="hidden lg:flex items-center justify-center flex-1 bg-white text-black">
-        <div className="max-w-md text-center">
+        <div className="max-w-md text-center drop-shadow-md">
           <Image src={"/signin.svg"} height={300} width={300} alt="img" />
         </div>
       </div>
@@ -174,7 +174,10 @@ function SigningIn() {
               type="submit"
               className="text-sm text-gray-600 hover:underline"
             >
+              <Link href={"/reset"}>
+              
               Forgot Password?
+              </Link>
             </button>
 
             <FormError message={error } />
