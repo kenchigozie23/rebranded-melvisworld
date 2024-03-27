@@ -201,7 +201,10 @@ function SigningUp() {
               type="submit"
               className="text-sm text-gray-600 hover:underline"
             >
+              <Link href={"/reset"}>
+              
               Forgot Password?
+              </Link>
             </button>
 
             <FormError message={error}/>
