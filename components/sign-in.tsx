@@ -54,7 +54,7 @@ function SigningIn() {
       login(values).then((data) => {
         setError(data?.error);
         // when we add 2FA
-        // setSuccess(data?.success)
+        setSuccess(data?.success)
       });
     });
   };
