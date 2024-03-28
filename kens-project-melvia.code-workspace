@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../next-auth-v5-advanced-guide-master/data"
+		}
+	],
+	"settings": {}
+}
