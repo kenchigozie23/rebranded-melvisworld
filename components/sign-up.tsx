@@ -54,12 +54,12 @@ function SigningUp() {
        
       {/* Left Pane */}
       <div className="hidden lg:flex items-center justify-center flex-1 bg-gray-100 text-black">
-        <div className="max-w-md text-center drop-shadow-md">
+        <div className=" text-center drop-shadow-md">
           <Image src={"/team.svg"} height={300} width={300} alt="img" />
         </div>
       </div>
       {/* Right Pane */}
-      <div className="w-full  bg-white shadow-lg rounded lg:w-1/2 flex items-center justify-center max-w-md">
+      <div className="w-full  bg-white shadow-lg rounded lg:w-1/2 flex items-center justify-center ">
         <div className="max-w-md w-full p-6">
           <h1 className="text-3xl font-semibold mb-6 text-black text-center">
             Sign Up
