@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { z } from "zod";
 import Link from "next/link";
 
-// import { useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 import ScaleLoader from "react-spinners/ScaleLoader";
 import { signIn } from "next-auth/react";
@@ -20,12 +20,12 @@ import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 type FormField = z.infer<typeof LoginSchema>;
 
 function SigningIn() {
-  // const searchParams = useSearchParams();
+  const searchParams = useSearchParams();
 
-  // const urlError =
-  //   searchParams.get("error") === "OAuthAccountNotLinked"
-  //     ? "Email already in use with different provider!"
-  //     : "";
+  const urlError =
+    searchParams.get("error") === "OAuthAccountNotLinked"
+      ? "Email already in use with different provider!"
+      : "";
 
   const onClick = (provider: "google" | "github") => {
     signIn(provider, {
@@ -220,7 +220,7 @@ function SigningIn() {
               <Link href={"/reset"}>Forgot Password?</Link>
             </button>
 
-            <FormError message={error} />
+            <FormError message={error || urlError} />
             <FormSuccess message={success} />
 
             <div>
