@@ -29,9 +29,7 @@ const SignUp = () => {
   return (
     <div >
       <SigningUp/>
-      <div className="top-0 left-0  ">
-        {/* <ParticlesComponent /> */}
-      </div>
+     
     </div>
   );
 };
