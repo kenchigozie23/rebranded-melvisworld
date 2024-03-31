@@ -32,12 +32,14 @@ function SigningIn() {
       callbackUrl: DEFAULT_LOGIN_REDIRECT,
     });
   };
+  const [showTwoFactor, setShowTwoFactor] = useState(false);
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<FormField>({
     defaultValues: {
@@ -51,11 +53,21 @@ function SigningIn() {
     setSuccess("");
 
     startTransition(() => {
-      login(values).then((data) => {
-        setError(data?.error);
-        // when we add 2FA
-        setSuccess(data?.success)
-      });
+      login(values)
+        .then((data) => {
+          if (data?.error) {
+            reset();
+            setError(data.error);
+          }
+          if (data?.success) {
+            reset();
+            setSuccess(data.success);
+          }
+          if (data?.twoFactor) {
+            setShowTwoFactor(true);
+          }
+        })
+        .catch(() => setError("Something went wrong"));
     });
   };
   return (
@@ -130,57 +142,85 @@ function SigningIn() {
             <p>or with email</p>
           </div>
           <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Email
-              </label>
-              <input
-                disabled={isPending}
-                type="text"
-                id="email"
-                placeholder="email"
-                {...register("email")}
-                className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300 text-black"
-              />
-              {errors.email && (
-                <p className="text-sm text-red-600">{errors.email.message}</p>
-              )}
-            </div>
+            {
+              showTwoFactor && (
+                <div>
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Two Factor Code
+                </label>
+                <input
+                  disabled={isPending}
+                 
+                  name="code"
+                  placeholder="12345"
+                  {...register("code")}
+                  className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300 text-black"
+                />
+                {errors.code && (
+                  <p className="text-sm text-red-600">
+                    {errors.code.message}
+                  </p>
+                )}
+              </div>
+              )
+            }
+            {!showTwoFactor && (
+              <>
+                <div>
+                  <label
+                    htmlFor="email"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Email
+                  </label>
+                  <input
+                    disabled={isPending}
+                    type="text"
+                    id="email"
+                    placeholder="email"
+                    {...register("email")}
+                    className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300 text-black"
+                  />
+                  {errors.email && (
+                    <p className="text-sm text-red-600">
+                      {errors.email.message}
+                    </p>
+                  )}
+                </div>
 
-            <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Password
-              </label>
-              <input
-                disabled={isPending}
-                type="password"
-                id="password"
-                {...register("password")}
-                className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300 text-black"
-              />
-              {errors.password && (
-                <p className="text-sm text-red-600">
-                  {errors.password.message}
-                </p>
-              )}
-            </div>
+                <div>
+                  <label
+                    htmlFor="password"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Password
+                  </label>
+                  <input
+                    disabled={isPending}
+                    type="password"
+                    id="password"
+                    {...register("password")}
+                    className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300 text-black"
+                  />
+                  {errors.password && (
+                    <p className="text-sm text-red-600">
+                      {errors.password.message}
+                    </p>
+                  )}
+                </div>
+              </>
+            )}
             <button
               type="submit"
               className="text-sm text-gray-600 hover:underline"
             >
-              <Link href={"/reset"}>
-              
-              Forgot Password?
-              </Link>
+              <Link href={"/reset"}>Forgot Password?</Link>
             </button>
 
-            <FormError message={error } />
+            <FormError message={error} />
             <FormSuccess message={success} />
 
             <div>
@@ -189,10 +229,10 @@ function SigningIn() {
                 type="submit"
                 className="w-full bg-black text-white p-2 rounded-md hover:bg-gray-800 focus:outline-none focus:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-colors duration-300"
               >
-                {isPending ? (
-                  <ScaleLoader color="#ffffff" height={15} />
+                {showTwoFactor ? (
+                  "Confirm " 
                 ) : (
-                  "login"
+                 "Login"
                 )}
               </button>
             </div>
